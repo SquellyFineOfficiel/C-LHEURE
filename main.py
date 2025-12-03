@@ -23,7 +23,6 @@ class LoginPayload(BaseModel):
     url: str
     username: str
     password: str
-    cas: str = 'none' # Default to none, but the user can specify 'elyco'
 
 # --- API Endpoint ---
 @app.post("/sync")
@@ -33,9 +32,7 @@ async def sync_schedule(payload: LoginPayload):
         client = pronotepy.Client(
             payload.url,
             payload.username,
-            payload.password,
-            # Use the CAS supplied by the user (or default)
-            cas=payload.cas if payload.cas != 'none' else None
+            payload.password
         )
         
         # Get timetable for today and tomorrow
